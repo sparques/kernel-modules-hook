@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Path
+Target = usr/lib/modules/*/vmlinuz
+
+[Action]
+Description = Restoring Linux kernel modules...
+When = PostTransaction
+Exec = /bin/sh -c 'KVER="${KVER:-$(uname -r)}"; if [ ! -e "/usr/lib/modules/${KVER}" ] && [ -e "/tmp/${KVER}" ]; then mount --bind "/tmp/${KVER}" "/usr/lib/modules/${KVER}"; fi'
